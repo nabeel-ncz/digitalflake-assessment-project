@@ -67,7 +67,7 @@ export const login = async (
 
         const match = await comparePassword(value?.password, user.password);
 
-        if(!match){
+        if (!match) {
             throw new Error("Email or password is incorrect!");
         }
 
@@ -89,6 +89,19 @@ export const login = async (
             httpOnly: true
         });
 
+        res.status(200).json({ data: user });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const user = await UserService.findById(req.user?._id as string);
         res.status(200).json({ data: user });
     } catch (error) {
         next(error);

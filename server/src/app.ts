@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { UserRouter } from "@/routes";
+import { ErrorHandler } from "./middlewares";
 
 const app: Application = express();
 const corsOptions = {
@@ -23,14 +24,7 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
     next(new Error("Page not found"));
 });
 
-app.use((
-    error: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    res.send(error?.message);
-});
+app.use(ErrorHandler);
 
 export const listen = () => {
     const port = process.env.PORT || 3000;

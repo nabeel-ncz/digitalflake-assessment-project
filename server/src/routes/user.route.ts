@@ -1,11 +1,12 @@
 import express from "express";
 import { UserController } from "@/controllers";
+import { CurrentUser, RequireAuth } from "@/middlewares";
 
 export default () => {
     const router = express.Router();
 
     router.route("/")
-        .get()
+        .get(CurrentUser, RequireAuth, UserController.getUser)
         .put();
 
     router.route("/register")
