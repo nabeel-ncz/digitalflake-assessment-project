@@ -4,10 +4,14 @@ import { z } from "zod";
 import { signupSchema } from "../../utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ZodInputSignup from "../../components/form/ZodInputSignup";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { signupAction } from "../../store/actions/user";
 
 export default function Signup() {
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { error, loading } = useAppSelector((state) => state.user);
     const navigateToLogin = () => { navigate("/login") };
 
     const {
@@ -18,17 +22,18 @@ export default function Signup() {
         resolver: zodResolver(signupSchema)
     });
 
-    const onSubmit = (data: { 
+    const onSubmit = (data: {
         name: string
         email: string
         password: string
     }) => {
-        console.log(data);
+        dispatch(signupAction(data));
     }
 
     return (
         <div className="w-full min-h-screen flex items-center justify-center px-6 md:px-0">
             <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col items-start gap-4 py-24">
+                {error && (<span className="text-xs text-red-800"> {error}</span>)}
                 <ZodInputSignup
                     svg={
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70">
@@ -68,7 +73,9 @@ export default function Signup() {
                 <p >Already have an account <span
                     onClick={navigateToLogin}
                     className="text-blue-700 cursor-pointer">Login ?</span></p>
-                <button onClick={handleSubmit(onSubmit)} className="btn btn-primary w-full">Register</button>
+                <button onClick={!loading ? handleSubmit(onSubmit) : () => { }} className={`btn btn-primary w-full ${loading ? "opacity-40" : ""}`}>
+                    {loading ? "Register..." : "Register"}
+                </button>
             </div>
         </div>
     )
