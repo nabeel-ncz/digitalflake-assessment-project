@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
-import Home from "./pages/user/Home";
+import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
-import Products from "./pages/user/Products";
-import Categories from "./pages/user/Categories";
+import Products from "./pages/Products";
+import Categories from "./pages/Categories";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { useAppSelector } from "./hooks";
 
