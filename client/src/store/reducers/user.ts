@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signupAction } from '../actions/user';
+import { getUserAction, signupAction } from '../actions/user';
 
 interface UserState {
     data: {
@@ -24,6 +24,11 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+        .addCase(getUserAction.fulfilled, (state, action) => {
+            state.data = action.payload?.data;
+            state.loading = false;
+            state.error = null;
+        })
         .addCase(signupAction.pending, (state) => {
             state.loading = true;
             state.error = null;

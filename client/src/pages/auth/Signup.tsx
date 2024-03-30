@@ -27,7 +27,9 @@ export default function Signup() {
         email: string
         password: string
     }) => {
-        dispatch(signupAction(data));
+        dispatch(signupAction(data)).then(() => {
+            navigate("/", { replace: true });
+        });
     }
 
     return (

@@ -11,7 +11,7 @@ export const signupAction = createAsyncThunk(
     }) => {
         try {
             const response = await apiClient.post(
-                `/api/user/register`,
+                `/api/v1/user/register`,
                 data,
                 {
                     headers: { "Content-Type": "application/json" },
