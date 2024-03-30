@@ -1,17 +1,30 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { loginSchema } from "../../utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ZodInputLogin from "../../components/form/ZodInputLogin";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { loginAction } from "../../store/actions/user";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function Login() {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { error, loading } = useAppSelector((state) => state.user);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+        if (searchParams.get("message")) {
+            toast.error("Unauthorized Access, Please log-in to your account!",
+                { position: "top-right" }
+            );
+            setSearchParams("");
+        }
+    }, []);
+
     const navigateToSignup = () => { navigate("/register") };
     const navigateToForgotPassword = () => { navigate("/forgot-password") };
 
@@ -27,7 +40,9 @@ export default function Login() {
         email: string;
         password: string;
     }) => {
-        dispatch(loginAction(data));
+        dispatch(loginAction(data)).then(() => {
+            navigate("/", { replace: true });
+        });
     };
 
     return (

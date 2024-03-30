@@ -2,18 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiClient } from "../../../utils/axios";
 import { AxiosError } from "axios";
 
-export const loginAction = createAsyncThunk(
-    "user/loginAction",
-    async (data: {
-        email: string;
-        password: string;
-    }) => {
+export const getUserAction = createAsyncThunk(
+    "user/getUserAction",
+    async () => {
         try {
-            const response = await apiClient.post(
-                `/api/v1/user/login`,
-                data,
+            const response = await apiClient.get(
+                `/api/v1/user`,
                 {
-                    headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 }
             );
