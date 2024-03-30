@@ -11,9 +11,6 @@ export default () => {
 
     router.route("/register")
         .post(UserController.signup);
-
-    router.route("/verify-otp")
-        .post();
     
     router.route("/login")
         .post(UserController.login);
