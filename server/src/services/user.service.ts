@@ -47,17 +47,3 @@ export const findByEmail = async (
     });
     return existingUser;
 }
-
-export const verifyUser = async (
-    email: string
-) => {
-    const updated = await User.findOneAndUpdate({
-        email: email
-    }, {
-        isVerified: true,
-        otp: ""
-    }, {
-        new: true
-    })
-    return updated;
-}
