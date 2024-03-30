@@ -17,12 +17,7 @@ export default function Header({
         <div className="w-full flex items-center justify-between bg-primary py-4 lg:px-24 px-2 md:px-6">
             <div className="flex items-center justify-center gap-2">
                 <span onClick={toggleSidebar} className="bg-base-100 rounded px-2 py-1 cursor-pointer">
-                    {(theme === "default" || theme === "dark") && (
-                        <IoMenu color="#f2f2f2" size={25}/>
-                    )}
-                    {theme === "autumn" && (
-                        <IoMenu color="#000" size={25}/>
-                    )}
+                    <IoMenu size={25} />
                 </span>
                 <img src="logo.png" alt="" className="h-5 md:h-6" />
             </div>
@@ -34,9 +29,9 @@ export default function Header({
                         {theme === "dark" && "Theme (dark)"}
                     </div>
                     <ul tabIndex={0} className="dropdown-content -left-16 z-[1] menu p-1 md:p-2 shadow bg-base-100 rounded-box w-52">
-                        <li onClick={() => {handleChangeTheme("default")}} className="hover:bg-gray-500 cursor-pointer">Theme (default)</li>
-                        <li onClick={() => {handleChangeTheme("autumn")}} className="hover:bg-gray-500 cursor-pointer">Light </li>
-                        <li onClick={() => {handleChangeTheme("dark")}} className="hover:bg-gray-500 cursor-pointer">Dark </li>
+                        <li onClick={() => { handleChangeTheme("default") }} className="hover:bg-gray-500 cursor-pointer">Theme (default)</li>
+                        <li onClick={() => { handleChangeTheme("autumn") }} className="hover:bg-gray-500 cursor-pointer">Light </li>
+                        <li onClick={() => { handleChangeTheme("dark") }} className="hover:bg-gray-500 cursor-pointer">Dark </li>
                     </ul>
                 </div>
                 <div className="avatar cursor-pointer">

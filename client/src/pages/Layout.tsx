@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import SideNav from "../components/SideNav";
 import { useAppSelector } from "../hooks";
+import { Outlet } from "react-router-dom";
 
 export default function Layout() {
 
@@ -14,7 +15,10 @@ export default function Layout() {
         <>
             <div data-theme={theme === "default" ? "dark" : theme}>
                 <Header toggleSidebar={toggleSidebar} />
-                <SideNav isOpen={isOpen} />
+                <div className="w-full flex">
+                    <SideNav isOpen={isOpen} />
+                    <Outlet />
+                </div>
             </div>
         </>
     )
