@@ -2,8 +2,8 @@ import express, { Request, Response, NextFunction, Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
-import { UserRouter } from "@/routes";
-import { ErrorHandler } from "./middlewares";
+import { ErrorHandler } from "@/middlewares";
+import { UserRouter, ProductRouter, CategoryRouter } from "@/routes";
 
 const app: Application = express();
 const corsOptions = {
@@ -19,6 +19,8 @@ app.use(helmet());
 app.use(cors(corsOptions));
 
 app.use("/api/v1/user", UserRouter());
+app.use("/api/v1/product", ProductRouter());
+app.use("/api/v1/category", CategoryRouter());
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
     next(new Error("Page not found"));
