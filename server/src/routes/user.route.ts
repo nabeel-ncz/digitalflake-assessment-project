@@ -1,4 +1,5 @@
 import express from "express";
+import { UserController } from "@/controllers";
 
 export default () => {
     const router = express.Router();
@@ -8,13 +9,13 @@ export default () => {
         .put();
 
     router.route("/register")
-        .post();
+        .post(UserController.signup);
 
     router.route("/verify-otp")
         .post();
     
     router.route("/login")
-        .post();
+        .post(UserController.login);
 
     router.route("/request-reset-password")
         .post();
