@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import Modal from "../../components/ui/Modal";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getCategoriesAction } from "../../store/actions/category";
+import { deleteCategoryAction, getCategoriesAction } from "../../store/actions/category";
 import Loader from "../../components/ui/Loader";
 
 export default function ListCategories() {
@@ -17,12 +17,16 @@ export default function ListCategories() {
     });
 
     useEffect(() => {
+        handleFetchData();
+    }, []);
+
+    const handleFetchData = (page?: number, limit?: number) => {
         dispatch(getCategoriesAction({
             userId: user?._id ?? "",
-            page: 1,
-            limit: 5
+            page: page ?? 1,
+            limit: limit ?? 5
         }));
-    }, []);
+    }
 
     const handleOpen = () => {
         modalRef?.current.open();
@@ -33,9 +37,11 @@ export default function ListCategories() {
     }
 
     const handleDelete = (id: string) => {
-        console.log(id);
-        handleClose();
-    }
+        dispatch(deleteCategoryAction({ _id: id })).then(() => {
+            handleFetchData();
+            handleClose();
+        });
+    };
 
     const navigateToCreate = () => {
         navigate("create");
@@ -51,26 +57,29 @@ export default function ListCategories() {
                 </label>
                 <button onClick={navigateToCreate} className="btn">Add New</button>
             </div>
+            {loading && <Loader />}
+            {(!loading && data?.length === 0) && (
+                <h2 className="font-bold mt-2 text-center">No Categories found!</h2>
+            )}
             <table className="table">
-                <thead>
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+                {(!loading && data?.length !== 0) && (
+                    <thead>
+                        <tr>
+                            <th>
+                                <label>
+                                    <input type="checkbox" className="checkbox" />
+                                </label>
+                            </th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                )}
                 <tbody>
-                    {loading && <Loader />}
-                    {(!loading && data?.length === 0) && (
-                        <h2 className="font-bold mt-2">No Categories found!</h2>
-                    )}
+
                     {data?.map((item: {
                         _id: string;
                         name: string;
