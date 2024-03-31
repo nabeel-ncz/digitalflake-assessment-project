@@ -46,3 +46,9 @@ export const findById = async (
     const result = await Category.findById(data._id);
     return result;
 }
+
+export const deleteById = async (
+    data: { _id: string }
+) => {
+    await Category.deleteOne({ _id: data._id });
+}

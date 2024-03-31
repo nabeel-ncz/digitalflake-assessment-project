@@ -65,10 +65,26 @@ export const findById = async (
         const category = await CategoryService.findById({
             _id: categoryId
         });
-        if(!category){
+        if (!category) {
             throw new Error("No categry found!");
         }
         res.status(200).json({ data: category });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const deleteById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const categoryId = req.params?.id as string;
+        await CategoryService.deleteById({
+            _id: categoryId
+        });
+        res.status(204).json({});
     } catch (error) {
         next(error);
     }

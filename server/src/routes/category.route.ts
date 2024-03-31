@@ -11,7 +11,8 @@ export default () => {
         .get(CurrentUser, RequireAuth, CategoryController.findAll);
 
     router.route("/:id")
-        .get(CurrentUser, RequireAuth, CategoryController.findById);
+        .get(CurrentUser, RequireAuth, CategoryController.findById)
+        .delete(CurrentUser, RequireAuth, CategoryController.deleteById);
 
     return router;
 }
