@@ -7,7 +7,7 @@ import ZodInputLogin from "../../components/form/ZodInputLogin";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { loginAction } from "../../store/actions/user";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 export default function Login() {
 
@@ -18,9 +18,9 @@ export default function Login() {
 
     useEffect(() => {
         if (!data && searchParams.get("message")) {
-            toast.error("Unauthorized Access, Please log-in to your account!",
-                { position: "top-right" }
-            );
+            // toast.error("Unauthorized Access, Please log-in to your account!",
+            //     { position: "top-right" }
+            // );
             setSearchParams("");
         }
     }, []);
