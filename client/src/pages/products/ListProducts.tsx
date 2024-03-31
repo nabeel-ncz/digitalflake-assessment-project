@@ -1,4 +1,4 @@
-export default function Products() {
+export default function ListProducts() {
     return (
         <div className="w-full overflow-x-auto">
             <div className='w-full py-2 px-12 flex items-center justify-between'>
