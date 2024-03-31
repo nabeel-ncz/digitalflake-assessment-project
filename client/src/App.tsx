@@ -4,13 +4,16 @@ import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Products from "./pages/Products";
-import Categories from "./pages/Categories";
+import Categories from "./pages/categories/Categories";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import NotFound from "./pages/NotFound";
 import { getUserAction } from "./store/actions/user";
+import ListCategories from "./pages/categories/ListCategories";
+import CreateCategory from "./pages/categories/CreateCategory";
+import UpdateCategory from "./pages/categories/UpdateCategory";
 
 export default function App() {
 
@@ -29,13 +32,17 @@ export default function App() {
       <Toaster />
       <div data-theme={theme === "default" ? "dark" : theme}>
         <Routes>
-          <Route path="/register" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/register" element={data ? <Navigate to={"/"} /> : <Signup />} />
+          <Route path="/login" element={data ? <Navigate to={"/"} /> : <Login />} />
+          <Route path="/forgot-password" element={data ? <Navigate to={"/"} /> : <ForgotPassword />} />
           <Route path="/" element={data ? <Layout /> : <Navigate to={"/login?message=true"} />}>
             <Route index element={<Home />} />
             <Route path="products" element={<Products />} />
-            <Route path="categories" element={<Categories />} />
+            <Route path="categories" element={<Categories />} >
+              <Route index element={<ListCategories />} />
+              <Route path="create" element={<CreateCategory />} />
+              <Route path="update/:id" element={<UpdateCategory />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

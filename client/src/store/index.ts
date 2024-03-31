@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import commonReducer from "./reducers/common";
 import userReducer from "./reducers/user";
+import categoryReducer from "./reducers/category";
 
 export const store = configureStore({
     reducer: {
         common: commonReducer,
-        user: userReducer
+        user: userReducer,
+        category: categoryReducer
     }
 });
 

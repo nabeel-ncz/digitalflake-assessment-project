@@ -13,11 +13,11 @@ export default function Login() {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { error, loading } = useAppSelector((state) => state.user);
+    const { data, error, loading } = useAppSelector((state) => state.user);
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        if (searchParams.get("message")) {
+        if (!data && searchParams.get("message")) {
             toast.error("Unauthorized Access, Please log-in to your account!",
                 { position: "top-right" }
             );
