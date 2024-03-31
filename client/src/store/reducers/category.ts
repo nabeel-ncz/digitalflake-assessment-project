@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createCategoryAction, getCategoriesAction } from '../actions/category';
+import { updateCategoryAction } from '../actions/category/updateCategoryAction';
 
 interface CategoryState {
     data: {
@@ -35,6 +36,18 @@ export const categorySlice = createSlice({
                 state.error = null;
             })
             .addCase(createCategoryAction.rejected, (state, action) => {
+                state.error = action.error?.message ?? "Something went wrong!";
+                state.loading = false;
+            })
+            .addCase(updateCategoryAction.fulfilled, (state) => {
+                state.error = null;
+                state.loading = false;
+            })
+            .addCase(updateCategoryAction.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateCategoryAction.rejected, (state, action) => {
                 state.error = action.error?.message ?? "Something went wrong!";
                 state.loading = false;
             })
