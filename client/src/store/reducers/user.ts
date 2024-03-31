@@ -14,7 +14,7 @@ interface UserState {
 const initialState: UserState = {
     data: null,
     error: null,
-    loading: false
+    loading: true
 }
 
 export const userSlice = createSlice({
@@ -25,10 +25,16 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+        .addCase(getUserAction.pending, (state) => {
+            state.loading = true;
+        })
         .addCase(getUserAction.fulfilled, (state, action) => {
             state.data = action.payload?.data;
             state.loading = false;
             state.error = null;
+        })
+        .addCase(getUserAction.rejected, (state) => {
+            state.loading = false;
         })
         .addCase(signupAction.pending, (state) => {
             state.loading = true;

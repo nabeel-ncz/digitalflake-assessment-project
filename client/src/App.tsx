@@ -14,11 +14,12 @@ import { getUserAction } from "./store/actions/user";
 import ListCategories from "./pages/categories/ListCategories";
 import CreateCategory from "./pages/categories/CreateCategory";
 import UpdateCategory from "./pages/categories/UpdateCategory";
+import AppLoader from "./components/ui/AppLoader";
 
 export default function App() {
 
   const dispatch = useAppDispatch();
-  const { data } = useAppSelector((state) => state.user);
+  const { data, loading } = useAppSelector((state) => state.user);
   const { theme } = useAppSelector((state) => state.common);
 
   useEffect(() => {
@@ -31,21 +32,25 @@ export default function App() {
     <>
       <Toaster />
       <div data-theme={theme === "default" ? "dark" : theme}>
-        <Routes>
-          <Route path="/register" element={data ? <Navigate to={"/"} /> : <Signup />} />
-          <Route path="/login" element={data ? <Navigate to={"/"} /> : <Login />} />
-          <Route path="/forgot-password" element={data ? <Navigate to={"/"} /> : <ForgotPassword />} />
-          <Route path="/" element={data ? <Layout /> : <Navigate to={"/login?message=true"} />}>
-            <Route index element={<Home />} />
-            <Route path="products" element={<Products />} />
-            <Route path="categories" element={<Categories />} >
-              <Route index element={<ListCategories />} />
-              <Route path="create" element={<CreateCategory />} />
-              <Route path="update/:id" element={<UpdateCategory />} />
+        {loading ? (
+          <AppLoader />
+        ) : (
+          <Routes>
+            <Route path="/register" element={data ? <Navigate to={"/"} /> : <Signup />} />
+            <Route path="/login" element={data ? <Navigate to={"/"} /> : <Login />} />
+            <Route path="/forgot-password" element={data ? <Navigate to={"/"} /> : <ForgotPassword />} />
+            <Route path="/" element={data ? <Layout /> : <Navigate to={"/login?message=true"} />}>
+              <Route index element={<Home />} />
+              <Route path="products" element={<Products />} />
+              <Route path="categories" element={<Categories />} >
+                <Route index element={<ListCategories />} />
+                <Route path="create" element={<CreateCategory />} />
+                <Route path="update/:id" element={<UpdateCategory />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        )}
       </div>
     </>
   )
