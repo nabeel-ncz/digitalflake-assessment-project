@@ -159,7 +159,7 @@ export default function ListCategories() {
                             <td>
                                 <Modal
                                     heading={item.name}
-                                    description="Are your sure, you want delete this product"
+                                    description="Are your sure, you want delete this category"
                                     actionText="Delete"
                                     actionMethod={() => { handleDelete(item._id) }}
                                     ref={modalRef}
