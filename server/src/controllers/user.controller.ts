@@ -114,9 +114,12 @@ export const requestForgotPassword = async (
     next: NextFunction
 ) => {
     try {
-        const { _id, email } = req.body;
+        const { email } = req.body;
+        const result = await UserService.findByEmail(email);
+        if (result) {
+            throw new Error("Account doesn't exist!");
+        };
         await UserService.sendForgotPasswordMail({
-            _id: _id as string,
             email: email as string
         });
         res.status(200).json({});

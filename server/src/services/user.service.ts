@@ -28,11 +28,12 @@ export const findById = async (id: string) => {
     return data;
 }
 
+
 export const sendForgotPasswordMail = async (
-    data: { _id: string; email: string; }
+    data: { email: string; }
 ) => {
     const token = await generateForgotPasswordToken({
-        _id: data._id
+        email: data?.email
     });
     await generateForgotPasswordMail({
         email: data.email,

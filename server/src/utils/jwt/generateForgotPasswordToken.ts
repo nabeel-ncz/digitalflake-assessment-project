@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const generateForgotPasswordToken = (
     payload: {
-        _id: string;
+        email: string;
     }
 ) => {
     return jwt.sign(
