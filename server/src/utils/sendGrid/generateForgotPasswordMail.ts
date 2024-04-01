@@ -17,7 +17,7 @@ export const generateForgotPasswordMail = async (
         subject: "Forgot password",
         text: "Please use this link to change your password",
         html: `<h2>Use this button to change your password </h2>
-                <h4>This link will expire after 15 minutes</h4>
+                <h4>This link will expire after 1 hour</h4>
                 <a href="${data.url}"><button>Change password<button></a>`
     };
 

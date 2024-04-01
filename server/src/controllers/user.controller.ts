@@ -1,6 +1,6 @@
 import { UserService } from "@/services";
 import { comparePassword, hashPassword } from "@/utils/bcrypt";
-import { generateAccessToken, generateRefreshToken } from "@/utils/jwt";
+import { generateAccessToken, generateRefreshToken, validateForgotPasswordToken } from "@/utils/jwt";
 import { loginSchema, signupSchema } from "@/utils/validation";
 import { Request, Response, NextFunction } from "express"
 
@@ -116,7 +116,7 @@ export const requestForgotPassword = async (
     try {
         const { email } = req.body;
         const result = await UserService.findByEmail(email);
-        if (result) {
+        if (!result) {
             throw new Error("Account doesn't exist!");
         };
         await UserService.sendForgotPasswordMail({
@@ -134,9 +134,10 @@ export const updatePassword = async (
     next: NextFunction
 ) => {
     try {
-        const { email, password } = req.body;
+        const { token, password } = req.body;
+        const data = await validateForgotPasswordToken(token);
         const result = await UserService.updatePassword({
-            email,
+            email: data?.email as string,
             password
         });
         res.status(200).json({ data: result });
