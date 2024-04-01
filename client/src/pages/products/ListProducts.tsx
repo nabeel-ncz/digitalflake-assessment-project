@@ -3,6 +3,7 @@ import { deleteProductAction, getProductsAction } from "../../store/actions/prod
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import Modal from "../../components/ui/Modal";
+import Loader from "../../components/ui/Loader";
 
 export default function ListProducts() {
 
@@ -112,6 +113,10 @@ export default function ListProducts() {
                     onClick={navigateToCreate}
                     className="btn">Add New</button>
             </div>
+            {loading && <Loader />}
+            {(!loading && data?.length === 0) && (
+                <h2 className="font-bold mt-2 text-center">No Products found!</h2>
+            )}
             <table className="table">
                 <thead>
                     <tr>
@@ -131,49 +136,54 @@ export default function ListProducts() {
                 </thead>
                 <tbody>
                     {products?.map((item) => (
-                        <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                            </th>
-                            <td className="max-w-md">
-                                {item._id}
-                            </td>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src={item.image} alt="Avatar Tailwind CSS Component" />
+                        <>
+                            <tr>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" className="checkbox" />
+                                    </label>
+                                </th>
+                                <td className="max-w-md">
+                                    {item._id}
+                                </td>
+                                <td>
+                                    <div className="flex items-center gap-3">
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle w-12 h-12">
+                                                <img src={item.image} alt="Avatar Tailwind CSS Component" />
+                                            </div>
+                                        </div>
+                                        <div className="max-w-[16rem]">
+                                            <div className="font-bold">{item.name}</div>
+                                            <div className="text-sm opacity-50 line-clamp-1">{item.description}</div>
                                         </div>
                                     </div>
-                                    <div className="max-w-[16rem]">
-                                        <div className="font-bold">{item.name}</div>
-                                        <div className="text-sm opacity-50 line-clamp-1">{item.description}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                {item.categoryRef?.name}
-                            </td>
-                            <td>
-                                <span className={`badge badge-ghost badge-sm`}>{item.size} KG</span>
-                            </td>
-                            <td>
-                                <span className={`badge badge-ghost badge-sm`}>₹.{item.price}</span>
-                            </td>
-                            <td>
-                                <span className={`badge badge-ghost badge-sm ${item.status == 'active' ? "text-green-800" : "text-red-800"}`}>{item.status}</span>
-                            </td>
-                            <th className="max-w-lg min-w-[12rem]">
-                                <button
-                                    onClick={() => { navigate(`update/${item._id}`) }}
-                                    className="btn btn-ghost btn-xs bg-yellow-600 text-primary-content mr-2">edit</button>
-                                <button
-                                    onClick={() => { handleOpen({ name: item.name, id: item._id }); }}
-                                    className="btn btn-ghost btn-xs bg-red-700 text-slate-50">delete</button>
-                            </th>
-                        </tr>
+                                </td>
+                                <td>
+                                    {!item.categoryRef ?
+                                        (<span className={`badge badge-ghost badge-sm bg-red-800`}>Deleted</span>) :
+                                        item.categoryRef?.name
+                                    }
+                                </td>
+                                <td>
+                                    <span className={`badge badge-ghost badge-sm`}>{item.size} KG</span>
+                                </td>
+                                <td>
+                                    <span className={`badge badge-ghost badge-sm`}>₹.{item.price}</span>
+                                </td>
+                                <td>
+                                    <span className={`badge badge-ghost badge-sm ${item.status == 'active' ? "text-green-800" : "text-red-800"}`}>{item.status}</span>
+                                </td>
+                                <th className="max-w-lg min-w-[12rem]">
+                                    <button
+                                        onClick={() => { navigate(`update/${item._id}`) }}
+                                        className="btn btn-ghost btn-xs bg-yellow-600 text-primary-content mr-2">edit</button>
+                                    <button
+                                        onClick={() => { handleOpen({ name: item.name, id: item._id }); }}
+                                        className="btn btn-ghost btn-xs bg-red-700 text-slate-50">delete</button>
+                                </th>
+                            </tr>
+                        </>
                     ))}
                 </tbody>
             </table>

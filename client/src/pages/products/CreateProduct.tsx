@@ -90,14 +90,14 @@ export default function CreateProduct() {
                     {errors[`${"description"}`] && <span className="text-xs text-red-800"> {errors[`${"description"}`]?.message}</span>}
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text">Size : </span>
+                            <span className="label-text">Size (KG) : </span>
                         </div>
                         <input {...register("size")} type="number" placeholder="Type here" className="input input-bordered w-full" />
                     </label>
                     {errors[`${"size"}`] && <span className="text-xs text-red-800"> {errors[`${"size"}`]?.message}</span>}
                     <label className="form-control w-full">
                         <div className="label">
-                            <span className="label-text">Price : </span>
+                            <span className="label-text">Price (₹) : </span>
                         </div>
                         <input {...register("price")} type="number" placeholder="Type here" className="input input-bordered w-full" />
                     </label>
