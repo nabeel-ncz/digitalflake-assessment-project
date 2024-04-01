@@ -136,9 +136,10 @@ export const updatePassword = async (
     try {
         const { token, password } = req.body;
         const data = await validateForgotPasswordToken(token);
+        const hash =  await hashPassword(password);
         const result = await UserService.updatePassword({
             email: data?.email as string,
-            password
+            password: hash
         });
         res.status(200).json({ data: result });
     } catch (error) {
