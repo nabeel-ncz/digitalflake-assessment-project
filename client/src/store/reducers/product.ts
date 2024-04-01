@@ -30,7 +30,9 @@ export const productSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {
-
+        productLoading: (state, action: { payload: boolean, type: string }) => {
+            state.loading = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -71,5 +73,5 @@ export const productSlice = createSlice({
     }
 })
 
-export const { } = productSlice.actions;
+export const { productLoading } = productSlice.actions;
 export default productSlice.reducer;
