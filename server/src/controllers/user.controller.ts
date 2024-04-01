@@ -107,3 +107,36 @@ export const getUser = async (
         next(error);
     }
 }
+
+export const requestForgotPassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        await UserService.sendForgotPasswordMail({
+            _id: req.query?.id as string,
+            email: req.query?.email as string
+        });
+        res.status(200).json({});
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const updatePassword = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { email, password } = req.body;
+        const result = await UserService.updatePassword({
+            email,
+            password
+        });
+        res.status(200).json({ data: result });
+    } catch (error) {
+        next(error);
+    }
+}

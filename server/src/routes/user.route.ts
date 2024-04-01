@@ -6,8 +6,7 @@ export default () => {
     const router = express.Router();
 
     router.route("/")
-        .get(CurrentUser, RequireAuth, UserController.getUser)
-        .put();
+        .get(CurrentUser, RequireAuth, UserController.getUser);
 
     router.route("/register")
         .post(UserController.signup);
@@ -16,10 +15,10 @@ export default () => {
         .post(UserController.login);
 
     router.route("/request-reset-password")
-        .post();
+        .post(UserController.requestForgotPassword);
 
     router.route("/reset-password")
-        .post();
+        .post(UserController.updatePassword);
 
     return router;
 }

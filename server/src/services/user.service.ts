@@ -1,4 +1,6 @@
 import { User } from "@/database/models";
+import { generateForgotPasswordToken } from "@/utils/jwt";
+import { generateForgotPasswordMail } from "@/utils/sendGrid";
 
 export const createUser = async (
     data: { name: string; email: string; password: string }
@@ -24,6 +26,18 @@ export const updateUser = async (
 export const findById = async (id: string) => {
     const data = await User.findById(id);
     return data;
+}
+
+export const sendForgotPasswordMail = async (
+    data: { _id: string; email: string; }
+) => {
+    const token = await generateForgotPasswordToken({
+        _id: data._id
+    });
+    await generateForgotPasswordMail({
+        email: data.email,
+        url: `${process.env.FRONTEND_URL}/change-password?token=${token}`
+    });
 }
 
 export const updatePassword = async (
