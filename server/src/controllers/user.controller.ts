@@ -136,7 +136,7 @@ export const updatePassword = async (
     try {
         const { token, password } = req.body;
         const data = await validateForgotPasswordToken(token);
-        const hash =  await hashPassword(password);
+        const hash = await hashPassword(password);
         const result = await UserService.updatePassword({
             email: data?.email as string,
             password: hash
@@ -145,4 +145,18 @@ export const updatePassword = async (
     } catch (error) {
         next(error);
     }
+}
+
+export const logout = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    res.cookie("access_token", "", {
+        maxAge: 0
+    });
+    res.cookie("refresh_token", "", {
+        maxAge: 0
+    });0
+    res.status(204).json({});
 }

@@ -10,7 +10,7 @@ export default () => {
 
     router.route("/register")
         .post(UserController.signup);
-    
+
     router.route("/login")
         .post(UserController.login);
 
@@ -19,6 +19,9 @@ export default () => {
 
     router.route("/reset-password")
         .post(UserController.updatePassword);
+
+    router.route("/:id")
+        .delete(CurrentUser, RequireAuth, UserController.logout)
 
     return router;
 }
