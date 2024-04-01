@@ -40,13 +40,13 @@ export const findAll = async (
     const skip = (page - 1) * limit;
     const result = await Product.find({
         userRef: data.userId
-    }).skip(skip).limit(limit);
+    }).skip(skip).limit(limit).populate("categoryRef");
     return result;
 }
 
 export const findById = async (
     data: { _id: string; }
 ) => {
-    const result = await Product.findById(data._id);
+    const result = await Product.findById(data._id).populate("categoryRef");
     return result;
 }
