@@ -135,7 +135,7 @@ export default function ListProducts() {
                     </tr>
                 </thead>
                 <tbody>
-                    {products?.map((item) => (
+                    {!loading && products?.map((item) => (
                         <>
                             <tr>
                                 <th>

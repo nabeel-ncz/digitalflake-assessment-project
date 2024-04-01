@@ -11,7 +11,7 @@ export default function SideNav({
 
     return (
         <>
-            <div className={`${isOpen ? 'w-60' : 'w-[5.5rem]'} bg-base-200 min-h-[88vh]`}>
+            <div className={`${isOpen ? 'w-60' : 'w-[5.5rem]'} bg-base-200 min-h-[88vh] transition-all`}>
                 <div className="px-4 py-12">
                     <div className="flex flex-col items-start gap-4">
                         <NavLink to={"/"} className={({ isActive }) => isActive ? "bg-primary text-white w-full rounded" : "bg-base-100 w-full rounded"}>

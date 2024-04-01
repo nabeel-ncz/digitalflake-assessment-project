@@ -1,18 +1,23 @@
 import { IoMenu } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { changeTheme } from "../store/reducers/common";
-import { useNavigate } from "react-router-dom";
+import { logoutAction } from "../store/actions/user/logoutAction";
 
 export default function Header({
     toggleSidebar
 }: {
     toggleSidebar: () => void;
 }) {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const theme = useAppSelector((state) => state.common.theme);
+    const { data } = useAppSelector((state) => state.user);
     const handleChangeTheme = (theme: string) => {
         dispatch(changeTheme(theme));
+    }
+    const handleLogout = () =>{
+        dispatch(logoutAction({
+            _id: data?._id as string
+        }));
     }
 
     return (
@@ -36,9 +41,12 @@ export default function Header({
                         <li onClick={() => { handleChangeTheme("dark") }} className="hover:bg-gray-500 cursor-pointer">Dark </li>
                     </ul>
                 </div>
-                <div onClick={()=> {navigate("/register")}} className="avatar cursor-pointer">
+                <div className="avatar cursor-pointer dropdown">
                     <div className="w-12 rounded-full">
-                        <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        <img tabIndex={0} role="button" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                        <ul tabIndex={0} className="dropdown-content right-2 z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li className="hover:bg-gray-600" onClick={handleLogout}>Logout</li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@ import AppLoader from "./components/ui/AppLoader";
 import ListProducts from "./pages/products/ListProducts";
 import CreateProduct from "./pages/products/CreateProduct";
 import UpdateProduct from "./pages/products/UpdateProduct";
+import UpdatePassword from "./pages/auth/UpdatePassword";
 
 export default function App() {
 
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/register" element={data ? <Navigate to={"/"} /> : <Signup />} />
             <Route path="/login" element={data ? <Navigate to={"/"} /> : <Login />} />
             <Route path="/forgot-password" element={data ? <Navigate to={"/"} /> : <ForgotPassword />} />
+            <Route path="/change-password" element={data ? <Navigate to={"/"} /> : <UpdatePassword />} />
             <Route path="/" element={data ? <Layout /> : <Navigate to={"/login?message=true"} />}>
               <Route index element={<Home />} />
               <Route path="products" element={<Products />} >

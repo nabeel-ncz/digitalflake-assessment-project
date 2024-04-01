@@ -2,12 +2,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { useAppDispatch } from "../../hooks";
+import { requestResetPasswordAction } from "../../store/actions/user";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ForgotPassword() {
 
     const navigate = useNavigate();
-    const navigateToLogiin = () => { navigate("/login") };
+    const dispatch = useAppDispatch();
+    const [error, setError] = useState<string>("");
 
+    const navigateToLogiin = () => { navigate("/login") };
     const emailValidation = z.object({
         email: z.string().email("Invalid email format!")
     });
@@ -23,7 +29,17 @@ export default function ForgotPassword() {
     const onSubmit = (data: {
         email: string
     }) => {
-        console.log(data);
+        dispatch(requestResetPasswordAction({
+            email: data.email
+        })).then((result: any) => {
+            if (result?.error && result?.error?.message) {
+                throw new Error(result?.error?.message);
+            }
+            toast.success("The reset password link successfully sent in to your email", { position: "top-right"});
+            navigate("/login");
+        }).catch((error) => {
+            setError(error?.message as string);
+        });
     }
 
     return (
@@ -34,6 +50,7 @@ export default function ForgotPassword() {
                     <input {...register("email")} type="text" className="grow" placeholder="Email" />
                 </label>
                 {errors[`email`] && <span className="text-xs text-red-800"> {errors[`email`]?.message}</span>}
+                {error && <span className="text-xs text-red-800"> {error}</span>}
                 <button onClick={handleSubmit(onSubmit)} className="btn btn-primary w-full">Request reset link</button>
                 <div className="w-full flex items-center justify-center">
                     <span

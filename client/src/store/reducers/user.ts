@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUserAction, loginAction, signupAction } from '../actions/user';
+import { getUserAction, loginAction, requestResetPasswordAction, signupAction } from '../actions/user';
+import { logoutAction } from '../actions/user/logoutAction';
 
 interface UserState {
     data: {
@@ -21,7 +22,9 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-
+        clearError: (state) => {
+            state.error = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -62,8 +65,23 @@ export const userSlice = createSlice({
             state.loading = false;
             state.error = action.error?.message ?? "Something went wrong"
         })
+        .addCase(logoutAction.fulfilled, (state) => {
+            state.loading = false;
+            state.error = null;
+            state.data = null;
+        })
+        .addCase(requestResetPasswordAction.pending, (state) => {
+            state.error = null;
+        })
+        .addCase(requestResetPasswordAction.fulfilled, (state) => {
+            state.error = null;
+        })
+        .addCase(requestResetPasswordAction.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error?.message ?? "Something went wrong"
+        })
     }
 })
 
-export const {  } = userSlice.actions;
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;
