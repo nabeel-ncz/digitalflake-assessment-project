@@ -32,6 +32,7 @@ export default function ListProducts() {
     const [pageAvailable, setPageAvailable] = useState<boolean>(true);
     const [search, setSearch] = useState<string>("");
     const [query, setQuery] = useSearchParams();
+    const [deleteObj, setDeleteObj] = useState<{ name: string; id: string; } | null>(null);
 
     useEffect(() => {
         handleFetchData();
@@ -55,12 +56,14 @@ export default function ListProducts() {
         }));
     }
 
-    const handleOpen = () => {
+    const handleOpen = (obj: { name: string; id: string }) => {
+        setDeleteObj(obj);
         modalRef?.current.open();
     }
 
     const handleClose = () => {
         modalRef?.current.close();
+        setDeleteObj(null);
     }
 
     const handleDelete = (id: string) => {
@@ -167,18 +170,9 @@ export default function ListProducts() {
                                     onClick={() => { navigate(`update/${item._id}`) }}
                                     className="btn btn-ghost btn-xs bg-yellow-600 text-primary-content mr-2">edit</button>
                                 <button
-                                    onClick={handleOpen}
+                                    onClick={() => { handleOpen({ name: item.name, id: item._id }); }}
                                     className="btn btn-ghost btn-xs bg-red-700 text-slate-50">delete</button>
                             </th>
-                            <td>
-                                <Modal
-                                    heading={item.name}
-                                    description="Are your sure, you want delete this product"
-                                    actionText="Delete"
-                                    actionMethod={() => { handleDelete(item._id) }}
-                                    ref={modalRef}
-                                />
-                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -187,6 +181,13 @@ export default function ListProducts() {
                 <button onClick={handlePrev} className="btn" disabled={Number(query.get("page")) === 1 ? true : false}>Prev</button>
                 <button onClick={handleNext} className="btn" disabled={!pageAvailable}>Next</button>
             </div>
+            <Modal
+                heading={deleteObj?.name ?? ""}
+                description="Are your sure, you want delete this category"
+                actionText="Delete"
+                actionMethod={() => { handleDelete(deleteObj?.id ?? "") }}
+                ref={modalRef}
+            />
         </div>
     )
 }
