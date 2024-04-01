@@ -114,9 +114,10 @@ export const requestForgotPassword = async (
     next: NextFunction
 ) => {
     try {
+        const { _id, email } = req.body;
         await UserService.sendForgotPasswordMail({
-            _id: req.query?.id as string,
-            email: req.query?.email as string
+            _id: _id as string,
+            email: email as string
         });
         res.status(200).json({});
     } catch (error) {
