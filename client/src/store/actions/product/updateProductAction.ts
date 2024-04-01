@@ -5,13 +5,14 @@ import { AxiosError } from "axios";
 export const updateProductAction = createAsyncThunk(
     "user/updateProductAction",
     async (data: {
+        _id:string;
         userRef: string;
         categoryRef: string;
         name: string;
         description: string;
         size: number;
         price: number;
-        image: string;
+        image?: string;
         status: string;
     }) => {
         try {
