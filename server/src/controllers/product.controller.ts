@@ -73,3 +73,20 @@ export const findById = async (
         next(error);
     }
 }
+
+
+export const deleteById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const productId = req.params?.id as string;
+        await ProductService.deleteById({
+            _id: productId
+        });
+        res.status(204).json({});
+    } catch (error) {
+        next(error);
+    }
+}

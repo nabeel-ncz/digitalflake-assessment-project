@@ -50,3 +50,9 @@ export const findById = async (
     const result = await Product.findById(data._id).populate("categoryRef");
     return result;
 }
+
+export const deleteById = async (
+    data: { _id: string }
+) => {
+    await Product.deleteOne({ _id: data._id });
+}

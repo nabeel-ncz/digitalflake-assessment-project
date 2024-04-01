@@ -11,7 +11,8 @@ export default () => {
         .get(CurrentUser, RequireAuth, ProductController.findAll);
 
     router.route("/:id")
-        .get(CurrentUser, RequireAuth, ProductController.findById);
-
+        .get(CurrentUser, RequireAuth, ProductController.findById)
+        .delete(CurrentUser, RequireAuth, ProductController.deleteById);
+        
     return router;
 }
