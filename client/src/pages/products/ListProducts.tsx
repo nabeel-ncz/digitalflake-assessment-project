@@ -80,7 +80,7 @@ export default function ListProducts() {
 
     const handleSearch = (evt: ChangeEvent<HTMLInputElement>) => {
         setSearch(evt.target.value);
-        const filtered = data?.filter((item) => item.name?.includes(evt.target.value));
+        const filtered = data?.filter((item) => item.name?.toLowerCase().includes(evt.target.value.toLowerCase()));
         setProducts(filtered);
     }
 
